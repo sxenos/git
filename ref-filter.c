@@ -2082,10 +2082,10 @@ void ref_array_clear(struct ref_array *array)
 		free_array_item(array->items[i]);
 	FREE_AND_NULL(array->items);
 	array->nr = array->alloc = 0;
-	if (worktrees)
-	{
+	if (worktrees) {
 		hashmap_free(&ref_to_worktree_map, 1);
 		free_worktrees(worktrees);
+		worktrees = NULL;
 	}
 }
 
