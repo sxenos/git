@@ -9,6 +9,7 @@
 /* The main repository */
 static struct repository the_repo;
 struct repository *the_repository;
+struct index_state the_index;
 
 void initialize_the_repository(void)
 {
