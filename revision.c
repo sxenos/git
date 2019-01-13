@@ -114,10 +114,9 @@ static int path_and_oids_cmp(const void *hashmap_cmp_fn_data,
 	return strcmp(e1->path, e2->path);
 }
 
-int map_flags = 0;
 static void paths_and_oids_init(struct hashmap *map)
 {
-	hashmap_init(map, (hashmap_cmp_fn) path_and_oids_cmp, &map_flags, 0);
+	hashmap_init(map, (hashmap_cmp_fn) path_and_oids_cmp, NULL, 0);
 }
 
 static void paths_and_oids_clear(struct hashmap *map)
