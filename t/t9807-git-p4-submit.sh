@@ -546,7 +546,7 @@ test_expect_success 'submit --update-shelve' '
 	)
 '
 
-test_expect_failure 'update a shelve involving a moved file' '
+test_expect_success 'update a shelve involving a moved file' '
 	test_when_finished cleanup_git &&
 	(
 		cd "$cli" &&
