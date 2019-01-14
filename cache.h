@@ -972,6 +972,12 @@ struct repository_format {
 	struct string_list unknown_extensions;
 };
 
+/**
+ * Always use this to initialize a `struct repository_format`
+ * to a well-defined state before calling `read_repository()`.
+ */
+#define REPOSITORY_FORMAT_INIT { 0 }
+
 /*
  * Read the repository format characteristics from the config file "path" into
  * "format" struct. Returns the numeric version. On error, -1 is returned,
@@ -979,6 +985,12 @@ struct repository_format {
  * undefined.
  */
 int read_repository_format(struct repository_format *format, const char *path);
+
+/*
+ * Free the memory held onto by `format`, but not the struct itself.
+ * (No need to use this after `read_repository_format()` fails.)
+ */
+void clear_repository_format(struct repository_format *format);
 
 /*
  * Verify that the repository described by repository_format is something we
