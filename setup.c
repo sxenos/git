@@ -1140,7 +1140,7 @@ const char *setup_git_directory_gently(int *nongit_ok)
 				gitdir = DEFAULT_GIT_DIR_ENVIRONMENT;
 			setup_git_env(gitdir);
 		}
-		if (startup_info->have_repository)
+		if (startup_info->have_repository && repo_fmt.version > -1)
 			repo_set_hash_algo(the_repository, repo_fmt.hash_algo);
 	}
 
