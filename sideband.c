@@ -113,7 +113,7 @@ static void maybe_colorize_sideband(struct strbuf *dest, const char *src, int n)
 #define ANSI_SUFFIX "\033[K"
 #define DUMB_SUFFIX "        "
 
-int demultiplex_sideband(const char *me, char *buf, int len)
+int demultiplex_sideband(const char *me, char *buf, int len, int die_on_error)
 {
 	static const char *suffix;
 	struct strbuf outbuf = STRBUF_INIT;
@@ -144,6 +144,9 @@ int demultiplex_sideband(const char *me, char *buf, int len)
 	len--;
 	switch (band) {
 	case 3:
+		if (die_on_error)
+			die("remote error: %s", buf + 1);
+
 		strbuf_addf(&outbuf, "%s%s", outbuf.len ? "\n" : "",
 			    DISPLAY_PREFIX);
 		maybe_colorize_sideband(&outbuf, buf + 1, len);
@@ -196,6 +199,8 @@ int demultiplex_sideband(const char *me, char *buf, int len)
 	}
 
 cleanup:
+	if (die_on_error && retval == SIDEBAND_PROTOCOL_ERROR)
+		die("%s", outbuf.buf);
 	if (outbuf.len) {
 		strbuf_addch(&outbuf, '\n');
 		xwrite(2, outbuf.buf, outbuf.len);
