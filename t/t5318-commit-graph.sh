@@ -379,6 +379,8 @@ corrupt_graph_and_verify() {
 	orig_size=$(wc -c < $objdir/info/commit-graph) &&
 	zero_pos=${4:-${orig_size}} &&
 	cd "$TRASH_DIRECTORY/full" &&
+	orig_size=$(wc -c < $objdir/info/commit-graph) &&
+	zero_pos=${4:-${orig_size}} &&
 	test_when_finished mv commit-graph-backup $objdir/info/commit-graph &&
 	cp $objdir/info/commit-graph commit-graph-backup &&
 	printf "$data" | dd of="$objdir/info/commit-graph" bs=1 seek="$pos" conv=notrunc &&
